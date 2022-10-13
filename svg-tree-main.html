@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>Tree Diagram</title>
+        <style>
+            html,body,h1,h2,h3,h4,h5,h6 {
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: bold;
+            }
+            
+
+            .p1 {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            p.top {
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                background-color: forestgreen;
+                font-size: 40px;
+                color: white;
+                border: 3px solid black;
+                border-radius: 8px;
+                padding: 5px; 
+            }
+
+            /* Add a black background color to the top navigation */
+            .topnav {
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                background-color: rgb(100, 127, 95);
+                font-size: 40px;
+           
+            overflow: hidden;
+            }
+
+            /* Style the links inside the navigation bar */
+            .topnav a {
+            float: left;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+            }
+
+            /* Change the color of links on hover */
+            .topnav a:hover {
+            background-color: rgb(102, 98, 98);
+            color: white;
+            }
+
+            /* Add a color to the active/current link */
+            .topnav a.active {
+            background-color: #286509;
+            color: white;
+            }
+
+        </style> 
+    </header>
+
+    <script type="text/ecmascript">
+        let svgDoc;
+        let selectedPoint = 2;
+        let dx = 0;
+        let dy = 0;
+        
+        let example_shape;
+        let text_variables;
+        let control_lines;
+        let coords = [0, 0, 300, 100, 400, 20, 400, 220];
+
+        let scground = 780;
+        let scxlocation = 400;
+        let scxwidth = 800;
+        let scywidth = 800;
+        let crshapex = 75;
+        let crshapey = 75;
+        
+        let units = "cm";
+        let height = 2000;
+        let dbh = 25;
+        let clength = 250;
+        let cradius = 250;
+        let cbasedia = 180;
+        let cbht = 1200;
+        let dbhht = 130;   
+    
+        function init(evt) {
+            if ( window.svgDocument == null ) {
+                svgDoc = evt.target.ownerDocument;
+            }  
+            example_shape = svgDoc.getElementById('example_shape');
+            controls_lines = [svgDoc.getElementById('control_line1'),
+                              svgDoc.getElementById('control_line2')] ;
+            text_variables = [];
+            for (var i=1; i <= 4; i++){
+                text_variables.push(svgDoc.getElementById('variable'+i));
+            }
+        };
+        
+        function selectElement(evt, point){
+            selectedPoint = point;
+            control_point = evt.target.parentNode;
+            dx = coords[selectedPoint*2] - evt.clientX;
+                            
+            example_shape.setAttributeNS(null, "d", d);
+            control_point.setAttributeNS(null, "transform", "translate(" + x + "," + y + ")");
+            text_variables[selectedPoint-1].firstChild.data = x + "," + y;
+            
+            // Control lines
+            var n = Math.floor(selectedPoint/3);
+            var i = (selectedPoint % 2) + 1;
+            controls_lines[n].setAttributeNS(null, "x"+i, x);
+            controls_lines[n].setAttributeNS(null, "y"+i, y);
+            
+        };
+    </script>
+
+
+    <body>
+        <!-- <p class="top">Tree Shape Diagram</p>  -->
+        <div class="topnav">
+            <a class="active" href="#home">Home</a>
+            <a href="svg-tree-about.html">About</a>
+        </div>
+
+        <h1>Tree Diagram</h1>
+        <svg  width="800" height="800">
+            <rect width="800" height="800" style="fill:transparent;stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1" />
+            <!-- Oak shape -->
+            <path d="M 500 10 Q 650 100, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+            <path d="M 500 10 Q 350 100, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+            <!-- Pine shape 
+            <path d="M 500 10 Q 650 300, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+            <path d="M 500 10 Q 350 300, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+            -->
+            <!-- Ground Line -->
+            <line x1="10" y1="790" x2="790" y2="790" style="stroke:rgb(168, 150, 133);stroke-width:8" />
+            
+            
+            <!--Stem in crown -->
+            <path d="M 505 350 L 500 10 L 495 350 Z" style="stroke:rgb(84, 50, 0);stroke-width:2; fill:rgb(84, 50, 0)"/>
+            <!--Stem below crown -->
+            <path d="M 495 350 L 505 350 L 508 790 L 492 790 Z" style="stroke:rgb(84, 50, 0);stroke-width:2"/>
+            
+            <!-- centerline-->
+            <line x1="500" y1="10" x2="500" y2="790" style="stroke:rgb(181, 181, 181);stroke-width:2" />             <!--
+            <line x1="500" y1="10" x2="508" y2="790" style="stroke:rgb(0, 0, 0);stroke-width:2" />
+            <line x1="500" y1="10" x2="492" y2="790" style="stroke:rgb(0, 0, 0);stroke-width:2" />
+            -->
+            <!-- DBH disk -->
+            <ellipse cx="500" cy="770" rx="8" ry="3"  style="fill:rgb(242, 141, 141);stroke-width:2" />
+            <!-- Crown Base disk -->
+            <ellipse cx="500" cy="350" rx="6" ry="2"  style="fill:rgb(242, 141, 141);stroke-width:2" />
+        </svg>
+    
+    </body>
+</html>
