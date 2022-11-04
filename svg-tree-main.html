@@ -56,50 +56,104 @@
             color: white;
             }
 
+            .grid-container {
+                display: grid;
+                grid-template-columns: auto auto;
+                border: 2px solid rgba(0, 0, 0, 0.8);
+                /* background-color: #2196F3; */
+                padding: 10px;
+            }
+            .grid-item {
+                /* background-color: rgba(255, 255, 255, 0.8);*/
+                padding: 20px;
+                font-size: 50px;
+                text-align: left; 
+            }
+            p {
+                font-size: 1.5em;
+            }
+            input {
+                width: 100%;
+            }
+
+            .slidecontainer {
+                width: 100%; /* Width of the outside container */
+            }   
+
+            /* The slider itself */
+            
+            .slider {
+                -webkit-appearance: none;
+                width: 100%;
+                height: 15px;
+                border-radius: 5px;  
+                background: #d3d3d3;
+                outline: none;
+                opacity: 0.7;
+                -webkit-transition: .2s;
+                transition: opacity .2s;
+                }
+            
+
+            
+            /* Mouse-over effects */
+            .slider:hover {
+            opacity: 1; /* Fully shown on mouse-over */
+            }
+
+            .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%; 
+            background: forestgreen;
+            cursor: pointer;
+            }
+
+            .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: forestgreen;
+            cursor: pointer;
+            }
         </style> 
     </header>
 
     <script type="text/ecmascript">
         let svgDoc;
-        let selectedPoint = 2;
-        let dx = 0;
-        let dy = 0;
+               
+        let plot = {
+            scground:780,
+            scxlocation:400,
+            cxwidth:800,
+            scywidth:800,
+            crshapex:75,
+            crshapey:75};
         
-        let example_shape;
-        let text_variables;
-        let control_lines;
-        let coords = [0, 0, 300, 100, 400, 20, 400, 220];
-
-        let scground = 780;
-        let scxlocation = 400;
-        let scxwidth = 800;
-        let scywidth = 800;
-        let crshapex = 75;
-        let crshapey = 75;
-        
-        let units = "cm";
-        let height = 2000;
-        let dbh = 25;
-        let clength = 250;
-        let cradius = 250;
-        let cbasedia = 180;
-        let cbht = 1200;
-        let dbhht = 130;   
+        let tree = {
+            units:"cm",
+            height:2000,
+            dbh:25,
+            clength:250,
+            cradius:250,
+            cbasedia:180,
+            cbht:1200,
+            dbhht:130};   
     
         function init(evt) {
             if ( window.svgDocument == null ) {
                 svgDoc = evt.target.ownerDocument;
             }  
-            example_shape = svgDoc.getElementById('example_shape');
-            controls_lines = [svgDoc.getElementById('control_line1'),
-                              svgDoc.getElementById('control_line2')] ;
-            text_variables = [];
-            for (var i=1; i <= 4; i++){
-                text_variables.push(svgDoc.getElementById('variable'+i));
-            }
+           
+            units = svgDoc.getElementById('units');
+            height = svgDoc.getElementById('height');
+          
+            
         };
         
-        function selectElement(evt, point){
+        /* function selectElement(evt, point){
             selectedPoint = point;
             control_point = evt.target.parentNode;
             dx = coords[selectedPoint*2] - evt.clientX;
@@ -113,8 +167,20 @@
             var i = (selectedPoint % 2) + 1;
             controls_lines[n].setAttributeNS(null, "x"+i, x);
             controls_lines[n].setAttributeNS(null, "y"+i, y);
+
+        };*/
+        
+        function getInputValue() {
+            // Selecting the input element and get its value 
+            let htVal = document.getElementById("ht").value;
+            // Displaying the value
+            console.log(units);
+            console.log(height);
+            console.log(htVal);
             
-        };
+        }
+
+        
     </script>
 
 
@@ -125,35 +191,117 @@
             <a href="svg-tree-about.html">About</a>
         </div>
 
-        <h1>Tree Diagram</h1>
-        <svg  width="800" height="800">
-            <rect width="800" height="800" style="fill:transparent;stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1" />
-            <!-- Oak shape -->
-            <path d="M 500 10 Q 650 100, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
-            <path d="M 500 10 Q 350 100, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
-            <!-- Pine shape 
-            <path d="M 500 10 Q 650 300, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
-            <path d="M 500 10 Q 350 300, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
-            -->
-            <!-- Ground Line -->
-            <line x1="10" y1="790" x2="790" y2="790" style="stroke:rgb(168, 150, 133);stroke-width:8" />
+        <div class="grid-container">
+        <div> 
+            <h1>Tree Diagram</h1>
+            <svg  width="800" height="800">
+                <rect width="800" height="800" style="fill:transparent;stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1" />
+                <!-- Oak shape -->
+                <path d="M 500 10 Q 650 100, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+                <path d="M 500 10 Q 350 100, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+                <!-- Pine shape 
+                <path d="M 500 10 Q 650 300, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+                <path d="M 500 10 Q 350 300, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+                -->
+                <!-- Ground Line -->
+                <line x1="10" y1="790" x2="790" y2="790" style="stroke:rgb(168, 150, 133);stroke-width:8" />
+                
+                
+                <!--Stem in crown -->
+                <path d="M 505 350 L 500 10 L 495 350 Z" style="stroke:rgb(84, 50, 0);stroke-width:2; fill:rgb(84, 50, 0)"/>
+                <!--Stem below crown -->
+                <path d="M 495 350 L 505 350 L 508 790 L 492 790 Z" style="stroke:rgb(84, 50, 0);stroke-width:2;fill:rgb(84,50,0)"/>
+                
+                <!-- centerline-->
+                <line x1="500" y1="10" x2="500" y2="790" style="stroke:rgb(181, 181, 181);stroke-width:2" />             
+                <!--
+                <line x1="500" y1="10" x2="508" y2="790" style="stroke:rgb(0, 0, 0);stroke-width:2" />
+                <line x1="500" y1="10" x2="492" y2="790" style="stroke:rgb(0, 0, 0);stroke-width:2" />
+                -->
+                <!-- DBH disk -->
+                <ellipse cx="500" cy="770" rx="10" ry="3"  style="fill:rgb(242, 141, 141);stroke-width:2" />
+                <!-- Crown Base disk -->
+                <ellipse cx="500" cy="350" rx="6" ry="2"  style="fill:rgb(242, 141, 141);stroke-width:2" />
+            </svg>
+        </div>
+
+        <div>
+            <h1>Tree Values</h1>
+            <p> All value are in centimeters</p>
+            <div class="slidecontainer">
+                <p>Height: <span id="height"></span></p>
+                <input type="range" min="1" max="3500" value="2000" class="slider" id="htRange">
+            </div>
+            <div class="slidecontainer">
+                <p>Crown Height: <span id="crheight"></span></p>
+                <input type="range" min="1" max="3500" value="1500" class="slider" id="crhtRange">
+            </div>
+            <div class="slidecontainer">
+                <p>Crown Radius: <span id="crradius"></span></p>
+                <input type="range" min="1" max="400" value="350" class="slider" id="crradRange">
+            </div>
+            <div class="slidecontainer">
+                <p>Diameter at Crown Height: <span id="dchradius"></span></p>
+                <input type="range" min="1" max="70" value="35" class="slider" id="dchRange">
+            </div>
+            <div class="slidecontainer">
+                <p>Diameter at Breast Height: <span id="dbhradius"></span></p>
+                <input type="range" min="1" max="70" value="35" class="slider" id="dbhRange">
+            </div>
+        </div>
+        <script>
+            // Height slider
+            var htslider = document.getElementById("htRange");
+            var htoutput = document.getElementById("height");
+            htoutput.innerHTML = htslider.value; // Display the default slider value
+
+            // Update the current slider value (each time you drag the slider handle)
+            htslider.oninput = function() {
+                htoutput.innerHTML = this.value;
+            }
+
+            // Crown Height slider
+            var crhtslider = document.getElementById("crhtRange");
+            var crhtoutput = document.getElementById("crheight");
+            crhtoutput.innerHTML = crhtslider.value; // Display the default slider value
+
+            // Update the current slider value (each time you drag the slider handle)
+            crhtslider.oninput = function() {
+                crhtoutput.innerHTML = this.value;
+            }
+
+            // Crown Radius slider
+            var crradslider = document.getElementById("crradRange");
+            var crradoutput = document.getElementById("crradius");
+            crradoutput.innerHTML = crradslider.value; // Display the default slider value
+
+            // Update the current slider value (each time you drag the slider handle)
+            crradslider.oninput = function() {
+                crradoutput.innerHTML = this.value;
+            }
+
+            // Diameter at Crown Height slider
+            var dchslider = document.getElementById("dchRange");
+            var dchoutput = document.getElementById("dchradius");
+            dchoutput.innerHTML = dchslider.value; // Display the default slider value
+
+            // Update the current slider value (each time you drag the slider handle)
+            dchslider.oninput = function() {
+                dchoutput.innerHTML = this.value;
+            }
             
-            
-            <!--Stem in crown -->
-            <path d="M 505 350 L 500 10 L 495 350 Z" style="stroke:rgb(84, 50, 0);stroke-width:2; fill:rgb(84, 50, 0)"/>
-            <!--Stem below crown -->
-            <path d="M 495 350 L 505 350 L 508 790 L 492 790 Z" style="stroke:rgb(84, 50, 0);stroke-width:2"/>
-            
-            <!-- centerline-->
-            <line x1="500" y1="10" x2="500" y2="790" style="stroke:rgb(181, 181, 181);stroke-width:2" />             <!--
-            <line x1="500" y1="10" x2="508" y2="790" style="stroke:rgb(0, 0, 0);stroke-width:2" />
-            <line x1="500" y1="10" x2="492" y2="790" style="stroke:rgb(0, 0, 0);stroke-width:2" />
-            -->
-            <!-- DBH disk -->
-            <ellipse cx="500" cy="770" rx="8" ry="3"  style="fill:rgb(242, 141, 141);stroke-width:2" />
-            <!-- Crown Base disk -->
-            <ellipse cx="500" cy="350" rx="6" ry="2"  style="fill:rgb(242, 141, 141);stroke-width:2" />
-        </svg>
+            // Diameter at Breast Height slider
+            var dbhslider = document.getElementById("dbhRange");
+            var dbhoutput = document.getElementById("dbhradius");
+            dbhoutput.innerHTML = dbhslider.value; // Display the default slider value
+
+            // Update the current slider value (each time you drag the slider handle)
+            dbhslider.oninput = function() {
+                dbhoutput.innerHTML = this.value;
+            }
+
+
+        </script>
     
     </body>
 </html>
