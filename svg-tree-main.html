@@ -152,7 +152,7 @@
             
         };
         
-        /* function selectElement(evt, point){
+        function selectElement(evt, point){
             selectedPoint = point;
             control_point = evt.target.parentNode;
             dx = coords[selectedPoint*2] - evt.clientX;
@@ -167,7 +167,7 @@
             controls_lines[n].setAttributeNS(null, "x"+i, x);
             controls_lines[n].setAttributeNS(null, "y"+i, y);
 
-        };*/
+        };
         
         function getInputValue() {
             // Selecting the input element and get its value 
@@ -202,7 +202,6 @@
                 <!-- Ground Line -->
                 <line x1="10" y1="790" x2="790" y2="790" style="stroke:rgb(168, 150, 133);stroke-width:8" />
                 
-                
                 <!--Stem in crown -->
                 <path d="M 505 350 L 500 10 L 495 350 Z" style="stroke:rgb(84, 50, 0);stroke-width:2; fill:rgb(84, 50, 0)"/>
                 <!--Stem below crown -->
@@ -210,14 +209,16 @@
                 
                 <!-- centerline-->
                 <line x1="500" y1="10" x2="500" y2="790" style="stroke:rgb(181, 181, 181);stroke-width:2" />             
-                <!--
-                <line x1="500" y1="10" x2="508" y2="790" style="stroke:rgb(0, 0, 0);stroke-width:2" />
-                <line x1="500" y1="10" x2="492" y2="790" style="stroke:rgb(0, 0, 0);stroke-width:2" />
-                -->
+               
                 <!-- DBH disk -->
                 <ellipse cx="500" cy="770" rx="10" ry="3"  style="fill:rgb(242, 141, 141);stroke-width:2" />
                 <!-- Crown Base disk -->
                 <ellipse cx="500" cy="350" rx="6" ry="2"  style="fill:rgb(242, 141, 141);stroke-width:2" />
+                <!-- Control points -->
+                <!-- Tree top -->
+                <circle cx="500" cy="10" r="6" stroke="black" stroke-width="2" fill="red" />
+                <!-- Crownbase -->
+                <circle cx="500" cy="350" r="6" stroke="black" stroke-width="2" fill="red" />
             </svg>
        
 
@@ -257,6 +258,7 @@
             htslider.oninput = function() {
                 htoutput.innerHTML = this.value;
                 tree.height = parseInt(this.value);
+
                 console.log(tree);
             }
 
