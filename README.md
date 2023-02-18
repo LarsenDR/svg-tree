@@ -1,4 +1,4 @@
 # svg-tree
 svg-tree
 
-!(tree-Diagram.png)
+See file tree-Diagram.png for a example output.
