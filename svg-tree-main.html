@@ -124,15 +124,18 @@
         let svgDoc;
                
         let plot = {
-            scground:780,
+            scground:790,
             scxlocation:400,
             cxwidth:800,
-            scywidth:800,
+            cywidth:800,
             crshapex:75,
-            crshapey:75};
+            crshapey:75,
+            treetopx:500,
+            treetopy:10};
         
         let tree = {
             units:"cm",
+            maxht:3000,
             height:2000,
             dbh:25,
             clength:250,
@@ -177,7 +180,16 @@
             console.log(height);
             console.log(htVal);
             
+        };
+        
+        function sliderChange(val) {
+            document.getElementById('output').innerHTML = val;
+            document.getElementById("height").setAttribute("cy", val);
         }
+        document.getElementById('slider').value = 50;
+
+        function scale(){}
+        
         </script>
         
 
@@ -189,36 +201,54 @@
 
         <div class="grid-container">
     
-            
             <svg  width="800" height="800">
-                <rect width="800" height="800" style="fill:transparent;stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1" />
-                <!-- Oak shape -->
-                <path d="M 500 10 Q 650 100, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
-                <path d="M 500 10 Q 350 100, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
-                <!-- Pine shape 
-                <path d="M 500 10 Q 650 300, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
-                <path d="M 500 10 Q 350 300, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
-                -->
-                <!-- Ground Line -->
-                <line x1="10" y1="790" x2="790" y2="790" style="stroke:rgb(168, 150, 133);stroke-width:8" />
-                
-                <!--Stem in crown -->
-                <path d="M 505 350 L 500 10 L 495 350 Z" style="stroke:rgb(84, 50, 0);stroke-width:2; fill:rgb(84, 50, 0)"/>
-                <!--Stem below crown -->
-                <path d="M 495 350 L 505 350 L 508 790 L 492 790 Z" style="stroke:rgb(84, 50, 0);stroke-width:2;fill:rgb(84,50,0)"/>
-                
-                <!-- centerline-->
-                <line x1="500" y1="10" x2="500" y2="790" style="stroke:rgb(181, 181, 181);stroke-width:2" />             
-               
-                <!-- DBH disk -->
-                <ellipse cx="500" cy="770" rx="10" ry="3"  style="fill:rgb(242, 141, 141);stroke-width:2" />
-                <!-- Crown Base disk -->
-                <ellipse cx="500" cy="350" rx="6" ry="2"  style="fill:rgb(242, 141, 141);stroke-width:2" />
-                <!-- Control points -->
-                <!-- Tree top -->
-                <circle cx="500" cy="10" r="6" stroke="black" stroke-width="2" fill="red" />
-                <!-- Crownbase -->
-                <circle cx="500" cy="350" r="6" stroke="black" stroke-width="2" fill="red" />
+                <g transform="scale(1,-1) translate(0,-800) ">
+                    <rect width="800" height="800" style="fill:transparent;stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1" />
+                    <!-- Oak shape 
+                    <path d="M 500 10 Q 650 100, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+                    <path d="M 500 10 Q 350 100, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+                       Pine shape 
+                    <path d="M 500 10 Q 650 300, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+                    <path d="M 500 10 Q 350 300, 500 350" stroke="black" stroke-width="3" fill="forestgreen"/>
+                    -->
+                    <!-- Ground Line -->
+                    <line x1="10" y1="10" x2="790" y2="10" style="stroke:rgb(168, 150, 133);stroke-width:8" >
+                        <title>Ground</title>
+                    </line>
+                    
+                    <!--Stem in crown 
+                    <path d="M 505 350 L 500 10 L 495 350 Z" style="stroke:rgb(84, 50, 0);stroke-width:2; fill:rgb(84, 50, 0)"/>
+                    -->
+                    <!--Stem below crown 
+                    <path d="M 495 350 L 505 350 L 508 790 L 492 790 Z" style="stroke:rgb(84, 50, 0);stroke-width:2;fill:rgb(84,50,0)"/>
+                    -->
+                    <!-- centerline -->
+                    <line x1="400" y1="10" x2="400" y2="790" style="stroke:rgb(181, 181, 181);stroke-width:2" />             
+                    
+                    <!-- DBH disk 
+                    <ellipse cx="400" cy="20" rx="10" ry="4"  style="fill:rgb(242, 141, 141);stroke-width:2" >
+                        <title>Diameter at breast height</title>
+                    </ellipse>
+                    -->
+
+                    <!-- Crown Base disk 
+                    <ellipse cx="400" cy="432" rx="7" ry="4"  style="fill:rgb(242, 141, 141);stroke-width:2" >
+                        <title>Diameter at crownbase</title>
+                    </ellipse>
+                    -->
+                    
+                    <!-- Control points -->
+                    <!-- Tree top --> 
+                    <circle id="height" cx="400" cy="790" r="6" stroke="black" stroke-width="2" fill="red" >
+                        <title>Height</title>
+                    </circle>
+                    
+                    <!-- Crownbase 
+                    <circle id="base" cx="400" cy="440" r="6" stroke="black" stroke-width="2" fill="red" >
+                        <title>Crown base</title>
+                    </circle>
+                    -->
+                </g>
             </svg>
        
 
@@ -226,10 +256,12 @@
             <h1>Tree Values</h1>
             <p> All value are in centimeters</p>
             <div class="slidecontainer">
-                <p>Height: <span id="height"></span></p>
-                <input type="range" min="1" max="3500" value="2000" class="slider" id="htRange">
+                <p>Height: <span id="output"></span></p>
+                <!--<input type="range" min="1" max="3500" value="2000" class="slider" id="htslider" oninput="moveSlider(this)" > -->
+                <!--<input type="range" min="1" max="3500" value="2000" oninput="moveSlider(this, 'y', value)"/> -->
+                <input id="height" type="range" min="1" max="3500" step="1" oninput="sliderChange(this.value)">
             </div>
-            <div class="slidecontainer">
+            <!--<div class="slidecontainer">
                 <p>Crown Height: <span id="crheight"></span></p>
                 <input type="range" min="1" max="3500" value="1500" class="slider" id="crhtRange">
             </div>
@@ -248,24 +280,18 @@
             <div class="slidecontainer">
                 <p>Diameter at Breast Height: <span id="dbhradius"></span></p>
                 <input type="range" min="1" max="70" value="35" class="slider" id="dbhRange">
-            </div>
+            </div> -->
         </div>
     </div>
 
         <script>
             // Height slider
-            var htslider = document.getElementById("htRange");
+            var htslider = document.getElementById("htslider");
             var htoutput = document.getElementById("height");
             htoutput.innerHTML = htslider.value; // Display the default slider value
+            var htcoordy = document.getElementById("height");
 
-            // Update the current slider value (each time you drag the slider handle)
-            htslider.oninput = function() {
-                htoutput.innerHTML = this.value;
-                tree.height = parseInt(this.value);
-
-                console.log(tree);
-            }
-
+                        
             // Crown Height slider
             var crhtslider = document.getElementById("crhtRange");
             var crhtoutput = document.getElementById("crheight");
